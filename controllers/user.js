@@ -66,10 +66,14 @@ const userDelete = async (req, res = response) => {
 
     const { id } = req.params;
 
+    /* const userAuth = req.userAuth; */ //this come from validate-jwt
+
     const user = await User.findByIdAndUpdate(id, { status: false } );
-    res.json({
+
+
+    res.json(
         user
-    })
+    ) 
 };
 
 

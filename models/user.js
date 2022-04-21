@@ -36,7 +36,8 @@ const UserSchema = Schema({
 //metodos que pueden sobrescribir, elimina password  __v de la respuesta json
 
 UserSchema.methods.toJSON = function() {
-    const { password, __v, ...userData } = this.toObject();
+    const { password, __v, _id, ...userData } = this.toObject();
+    userData.uid = _id
     return userData;
 }
 
