@@ -9,9 +9,13 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
 
-
-        this.usersRoutePath = '/api/users';
-        this.authPath = '/api/auth';
+        this.paths = {
+            user :       '/api/users',
+            auth :       '/api/auth',
+            categories : '/api/categories',
+            products:    '/api/products',
+            find:        '/api/find'
+        }
 
         // Connect to DATABASE
         this.connectDB();
@@ -42,8 +46,12 @@ class Server {
 
     routes () {
 
-        this.app.use( this.authPath, require('../routes/auth')); //the last is the file localited in routes/auth
-        this.app.use( this.usersRoutePath, require('../routes/user'));
+        this.app.use( this.paths.auth, require('../routes/auth')); //the last is the file localited in routes/auth
+        this.app.use( this.paths.user, require('../routes/user'));
+        this.app.use( this.paths.categories, require( '../routes/categories'));
+        this.app.use( this.paths.products, require( '../routes/products'));
+        this.app.use( this.paths.find, require( '../routes/find'));
+
         
 
     }
