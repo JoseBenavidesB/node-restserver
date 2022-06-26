@@ -50,10 +50,21 @@ const validateProductId = async (id) => {
     }
 };
 
+const validCollection = (collection = '', collections = []) => {
+
+    const include = collections.includes( collection );
+    if ( !include ) {
+        throw new Error(` The collection: ${collection} is no valid, you can use: ${ collections }`)
+    }
+
+    return true
+};
+
 module.exports = {
     validRole,
     emailExist,
     userExist,
     validateCategoryId,
-    validateProductId
+    validateProductId,
+    validCollection
 }
