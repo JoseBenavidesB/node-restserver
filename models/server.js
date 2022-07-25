@@ -16,7 +16,7 @@ class Server {
             categories : '/api/categories',
             products:    '/api/products',
             find:        '/api/find',
-            uploads: '/api/uploads'
+            re
         }
 
         // Connect to DATABASE
@@ -42,7 +42,7 @@ class Server {
         // parse and read body
         this.app.use( express.json() );
 
-        //directorio public
+        //pullic directory
         this.app.use( express.static('public') );
 
         // file upload
@@ -55,14 +55,12 @@ class Server {
 
     routes () {
 
-        this.app.use( this.paths.auth, require('../routes/auth')); //the last is the file localited in routes/auth
+        this.app.use( this.paths.auth, require('../routes/auth'));
         this.app.use( this.paths.user, require('../routes/user'));
         this.app.use( this.paths.categories, require( '../routes/categories'));
         this.app.use( this.paths.products, require( '../routes/products'));
         this.app.use( this.paths.find, require( '../routes/find'));
-        this.app.use( this.paths.uploads, require( '../routes/uploads'));
-
-        
+        this.app.use( this.paths.uploads, require( '../routes/uploads'));  
 
     }
 

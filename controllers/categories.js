@@ -6,6 +6,7 @@ const getCategories = async (req, res) => {
 
     const { limit, from } = req.query
 
+    //get how many categories and categories names
     const [ total, categories ] = await Promise.all([
         Category.countDocuments( {status: true} ),
         Category.find( {status: true })
@@ -60,10 +61,14 @@ const createCategory = async (req, res = response)=> {
         user: req.userAuth._id
     };
 
-    const category = new Category( data ); //quede en el video 7, hacer la tarea
-    await category.save();
+    try {
+        const category = new Category( data ); 
+        await category.save();
 
-    res.status(201).json(category);
+        res.status(201).json(category);
+    } catch (error) {
+        console.log(error);
+    };
 }
 
 /* ----------- update category ---------- */
@@ -85,24 +90,32 @@ const updateCategory = async (req, res)=> {
         })
     };
     
-    const updateCategory = await Category.findByIdAndUpdate(id, data, {new: true}) //new: true mande el mas nuevo
+    try {
+        const updateCategory = await Category.findByIdAndUpdate(id, data, {new: true}) //new: true mande el mas nuevo
 
-    return res.status(200).json({
-        updateCategory
-    })
+        return res.status(200).json({
+            updateCategory
+        });
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 
-/* ----------- update category ---------- */
+/* ----------- Delete category ---------- */
 const deleteCategory = async (req, res)=> {
 
     const { id } = req.params
 
-    const categoryDeleted = await Category.findByIdAndUpdate(id, {status: false}, {new:true})
+    try {
+        const categoryDeleted = await Category.findByIdAndUpdate(id, {status: false}, {new:true})
     
-    return res.status(200).json({
-        categoryDeleted
-    })
+        return res.status(200).json({
+            categoryDeleted
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 module.exports = {

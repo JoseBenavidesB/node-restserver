@@ -11,9 +11,10 @@ const login = async (req, res = response) => {
 
     try {
 
-        //verify email exist?
+        
         const user = await User.findOne({ email });
 
+        //User exists?
         if (!user) {
             return res.status(400).json({
                 msg: "User / password are not correct - email"
@@ -40,8 +41,9 @@ const login = async (req, res = response) => {
         //generate JWT
         const token = await generateJWT( user.id );
 
+        const { password, ...userA } = user;
         res.json({
-            user,
+            userA,
             token
         })
 

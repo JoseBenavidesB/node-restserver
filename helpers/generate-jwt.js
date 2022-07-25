@@ -9,11 +9,11 @@ const generateJWT = ( uid = '' ) => {
         //sign para firmar, al final opciones
         jwt.sign( payload, process.env.SECRETORPRIVATEKEY, {
             expiresIn: '4h'
-        }, ( err, token) => { //callback si hay error y si todo sale bien
+        }, ( err, token) => { //Callback
 
             if(err) {
                 console.log(err)
-                reject("No se pudo generar el token")
+                reject("Is not possible generate JWT")
             } else {
                 resolve( token );
             }

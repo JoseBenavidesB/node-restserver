@@ -11,7 +11,7 @@ const checkCategory = async (req, res, next)=> {
             msg: `The category with the id ${category} doesnt exist`
         })
     }
-    console.log( categoryDB );
+    //console.log( categoryDB );
     next()
 
 };

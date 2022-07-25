@@ -5,20 +5,18 @@ const validRole = async(role = '')=> {
     const existeRole = await Role.findOne({ role });
 
     if ( !existeRole ) {
-        throw new Error(`El Role ${ role } no está registrado en la BD`)
+        throw new Error(`The Role: ${ role } doesn't exist on DB`)
     }
 };
 
 //verify email exist?
-const emailExist = async (email = '')=> {
-const existeEmail = await User.findOne( { email });
+const emailExist = async (email = '') => {
+    const existeEmail = await User.findOne( { email });
 
-if ( existeEmail ) {
-    /* return res.status(400).json({
-        msg: 'EMAIL ALREADY EXISTS'
-    }) */
-    throw new Error(`El correo ${ email } ya se encuentra registrado en la BD`)
-}};
+    if ( existeEmail ) {
+        throw new Error(`Email: ${ email }, already exists on DB`)
+    }
+};
 
 //verify user exist?
 const userExist = async (id)=> {
@@ -28,7 +26,7 @@ const userExist = async (id)=> {
         /* return res.status(400).json({
             msg: 'EMAIL ALREADY EXISTS'
         }) */
-        throw new Error(`El usuario con el id: ${ id } no existe en la BD`)
+        throw new Error(`The user with the ID: ${ id }  Doesn't exists on DB`)
     }};
 
 

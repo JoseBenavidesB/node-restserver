@@ -90,8 +90,6 @@ const updateProduct = async(req, res= response) => {
     const  user  = req.userAuth.id;
     const { status, available, ...other} = req.body;
 
-
-    
     const data = {...other, user}
 
     const productUpdated = await Product.findByIdAndUpdate( id, data, {new:true}).populate('category', 'name').populate('user', 'name')   
