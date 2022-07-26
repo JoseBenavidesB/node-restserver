@@ -9,6 +9,7 @@ const uploadFile = ( files, validExtention =  [ 'png', 'jpg', 'jpeg', 'gif'], fo
         const nameFile = archivo.name.split('.');
         const extention = nameFile[ nameFile.length - 1 ];
 
+        // validate extention
         if ( !validExtention.includes(extention) ) {
             return reject(`Extention ${ extention } is not valid, you can send: ${ validExtention }`)
         };
@@ -16,6 +17,7 @@ const uploadFile = ( files, validExtention =  [ 'png', 'jpg', 'jpeg', 'gif'], fo
         const tempFileName = uuidv4() + '.' + extention;
         const uploadPath = path.join( __dirname, '../uploads/', folder , tempFileName );
 
+        // upload file to folder> uploadPath
         archivo.mv(uploadPath, (err) => {
                 if (err) {
                     reject( err )

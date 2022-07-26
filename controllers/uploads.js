@@ -5,17 +5,16 @@ const cloudinary = require('cloudinary').v2;
 cloudinary.config( process.env.CLOUDINARY_URL );
 
 const { response } = require("express");
-const res = require("express/lib/response");
 const { uploadFile } = require("../helpers");
 const { Users, Product } = require("../models");
 
 
-
+/* --------upload to server-------- */
 const uploadFiles = async(req, res = response ) => {
 
 
     try {
-        const fileName = await uploadFile( req.files);
+        const fileName = await uploadFile( req.files, 'user');
     
         res.json({
             msg: `Name: ${ fileName}`
@@ -28,6 +27,7 @@ const uploadFiles = async(req, res = response ) => {
 
 };
 
+/* --------update image in server-------- */
 const updateImagen = async(req, res = response) => {
     const {id, collection} = req.params;
 
@@ -59,15 +59,19 @@ const updateImagen = async(req, res = response) => {
             return res.status(500).json({ msg: 'Forget valid this in the switch'});
     }
 
-    //clean previus img
-    if ( model.img ) {
-        //delete img in server
-        const pathImage = path.join( __dirname, '../uploads', collection, model.img)
-        
-        if( fs.existsSync( pathImage ) ) {
-            fs.unlinkSync( pathImage );
-        }
-    };
+    //delete previus img
+    try {
+        if ( model.img ) {
+            //delete img in server
+            const pathImage = path.join( __dirname, '../uploads', collection, model.img)
+            
+            if( fs.existsSync( pathImage ) ) {
+                fs.unlinkSync( pathImage );
+            }
+        };
+    } catch (error) {
+        console.log(error);
+    }
 
     const fileName = await uploadFile( req.files, undefined, collection);
     model.img = fileName
@@ -78,6 +82,7 @@ const updateImagen = async(req, res = response) => {
     
 };
 
+/* --------update image in cloudinary-------- */
 const updateImagenCloudinary = async(req, res = response) => {
     const {id, collection} = req.params;
 
@@ -110,15 +115,19 @@ const updateImagenCloudinary = async(req, res = response) => {
     }
 
     //clean previus img
-    if ( model.img ) {
-        //delete img in Cloudinary
-        const nameArr = model.img.split('/');
-        const name = nameArr[ nameArr.length - 1];
-        const [ public_id ] = name.split('.');
-
-        cloudinary.uploader.destroy( public_id );
-
-    };
+    try {
+        if ( model.img ) {
+            //delete img in Cloudinary
+            const nameArr = model.img.split('/');
+            const name = nameArr[ nameArr.length - 1];
+            const [ public_id ] = name.split('.');
+    
+            cloudinary.uploader.destroy( public_id );
+    
+        };
+    } catch (error) {
+        console.log(error);
+    }
 
     const { tempFilePath } = req.files.archivo;
     const { secure_url } = await cloudinary.uploader.upload( tempFilePath );
@@ -131,6 +140,7 @@ const updateImagenCloudinary = async(req, res = response) => {
     
 };
 
+/* --------Shhow image -------- */
 const showImages = async(req, res = response) => {
 
     const { id, collection } = req.params;
@@ -172,6 +182,7 @@ const showImages = async(req, res = response) => {
         }
     };
 
+    //If image not exists
     const notImagePath = path.join( __dirname, '../assets/image-not-found.jpg');
     res.sendFile( notImagePath )
 
