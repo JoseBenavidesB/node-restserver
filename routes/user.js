@@ -26,7 +26,7 @@ router.post('/', [
     check('name', 'Name require').not().isEmpty(),
     check('password', 'Password require, must have at least 6 digits').isLength( { min: 6 }),
     check('email', 'Invalid email').isEmail(),
-    check('email').custom( emailExist ), //validate valid email
+    check('email').custom( (email) => emailExist(email) ), //validate valid email
     //check('role', 'Invalid Role').isIn(['ADMIN_ROLE', 'USER_ROLE']),
     check('role').custom( validRole ), //same (role)=> validRole(role)
     fieldValidate

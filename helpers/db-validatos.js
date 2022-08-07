@@ -1,5 +1,6 @@
-const Role = require('../models/role')
-const { User, Category, Product } = require('../models') //hereeee
+const Role = require('../models/role');
+const User = require('../models/user')
+const { Category, Product } = require('../models') //hereeee
 
 const validRole = async(role = '')=> {
     const existeRole = await Role.findOne({ role });
@@ -10,15 +11,15 @@ const validRole = async(role = '')=> {
 };
 
 //verify email exist?
-const emailExist = async (email = '')=> {
-const existeEmail = await User.findOne( { email });
-
-if ( existeEmail ) {
-    /* return res.status(400).json({
-        msg: 'EMAIL ALREADY EXISTS'
-    }) */
-    throw new Error(`El correo ${ email } ya se encuentra registrado en la BD`)
-}};
+const emailExist = async(email = '')=> {
+        const existeEmail = await User.findOne( { email });
+        console.log(existeEmail);
+        if ( existeEmail ) {
+            throw new Error(`El correo ${ email } ya se encuentra registrado en la BD`)
+        }
+        
+    
+};
 
 //verify user exist?
 const userExist = async (id)=> {
