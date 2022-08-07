@@ -16,7 +16,6 @@ class Server {
             categories : '/api/categories',
             products:    '/api/products',
             find:        '/api/find',
-            re
         }
 
         // Connect to DATABASE
@@ -53,7 +52,7 @@ class Server {
         }));
     }
 
-    routes () {
+    routes() {
 
         this.app.use( this.paths.auth, require('../routes/auth'));
         this.app.use( this.paths.user, require('../routes/user'));
@@ -65,7 +64,9 @@ class Server {
     }
 
     listen() {
-        this.app.listen(this.port);
+        this.app.listen(this.port, () => {
+            'Server running on port:', this.port
+        }); 
     }
 
 }
